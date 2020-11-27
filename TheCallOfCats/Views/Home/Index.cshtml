@@ -1,12 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using System.Text.Json.Serialization
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using RestSharp
 @model DisplayModel
 
 <div class="text-center">
     <div> @Model.Url </div>
     <div> @Model.Response.StatusCode</div>
     <div> @Model.Response.ContentEncoding</div>
-    <div> @Model.Response.Content</div>
+    <pre> @Model.Content </pre>
 
 </div>
