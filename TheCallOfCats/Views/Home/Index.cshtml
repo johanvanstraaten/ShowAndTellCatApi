@@ -1,23 +1,112 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-@using System.Text.Json.Serialization
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using RestSharp
-@model DisplayModel
+﻿﻿<!DOCTYPE html>
+<html>
 
-<div class="text-center">
-    <div> @Model.Url </div>
-    <div> @Model.Response.StatusCode</div>
-    <div> @Model.Response.ContentEncoding</div>
-    <pre> @Model.Content </pre>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 
-</div>
+<body>
 
-<button id="demo" type="button" onclick='document.getElementById("demo").innerHTML = document.getElementById("textToSpeechInput").value'>Text to speech</button>
-<input value="fisk" id="textToSpeechInput" />
+    <img id="image" src="" alt="test" height="300">
 
+    <img id="catGraph" src="" alt="">
+
+    </br>
+    </br>
+
+    <div id="catMenuDiv">
+        <select id="catMenu">
+        </select>
+    </div>
+    </div>
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "https://api.thecatapi.com/v1/breeds",
+            context: document.body,
+            headers: {
+                "x-api-key": "3a21310d-ff0d-49f0-9c77-1cff25a3da71"
+            }, success: (resp) => {
+                var graphObj = {
+                    type: "bar",
+                    data: {
+                        labels: [],
+                        datasets: [
+                        ]
+                    }
+                };
+
+                var affection = {
+                    label: "Affection Level", data: []
+                }
+
+                var affection = {
+                    label: "Dog Friendly Level", data: []
+                }
+
+                var intelligence = {
+                    label: "Intelligence", data: []
+                }
+
+                var rare = {
+                    label: "Rare", data: []
+                }
+
+                var lap = {
+                    label: "Lap Cat", data: []
+                }
+
+                resp.forEach(element => {
+                    var div_data = "<option value=" + element.id + ">" + element.name + "</option>";
+                    $(div_data).appendTo('#catMenu');
+
+                    graphObj.data.labels.push(element.name);
+                });
+
+                $.getJSON("https://api.thecatapi.com/v1/images/search?breed_id=" + resp[0].id, (resp) => {
+                    $("#image").attr("src", resp[0]["url"]);
+                });
+
+
+            }
+        });
+    });
+
+    $("#catMenu").change(() => {
+        var data = $("#catMenu").val();
+
+        $.getJSON("https://api.thecatapi.com/v1/images/search?breed_id=" + data, (resp) => {
+            $("#image").attr("src", resp[0]["url"]);
+        });
+
+
+        // $.get("https://quickchart.io/chart?c=" + graphObj, (resp) => {
+        //     $("#image").attr("src", resp[0]["url"]);
+        // });
+
+    });
+</script>
+
+</html>
+
+@* <button id="demo" type="button" onclick='document.getElementById("demo").innerHTML = document.getElementById("textToSpeechInput").value'>Text to speech</button>
+    <input value="fisk" id="textToSpeechInput" />
+ *@
 
 <!--
 console code to make text to speech request
