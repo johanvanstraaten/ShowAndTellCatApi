@@ -105,6 +105,44 @@
    
         });
 
+        var settings = {
+            "url": "https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/badf5a23-db78-40ae-a451-d5734f0f0a24/v1/synthesize",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Accept": "audio/wav",
+                "Authorization": "Basic YXBpa2V5OjFPS1FvZWlkWXpmNG41amFMTG1oTTFMc3ZhcVhCSGNyQjJIS2V0TEN2aXU4",
+                "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({ "text": $("#catMenu :selected").text() }),
+        };
+
+        //[12:44] Megan Humphreys
+        //xhr.open('POST', encodeURI(url), true);
+        //xhr.setRequestHeader('Content-Type', 'application/json');
+        //xhr.responseType = 'blob';
+        //xhr.onload = function(evt) {​​
+        //    var blob = new Blob([xhr.response], {​​type: 'audio/ogg'}​​);
+        //    var objectUrl = URL.createObjectURL(blob);
+        //    audio.src = objectUrl;
+        //    // Release resource when it's loaded
+        //    audio.onload = function(evt) {​​
+        //        URL.revokeObjectURL(objectUrl);
+        //    }​​;
+        //    audio.play();
+        //}​​;
+        //var data = JSON.stringify({​​text: yourTextToSynthesize}​​);
+        //xhr.send(data);
+
+
+        $.ajax(settings).done(function (response) {
+            var blob = new Blob([response], { type: 'audio/wav' });
+            var objectUrl = URL.createObjectURL(blob);
+
+            $("#catVoice").load(objectUrl);
+            $("#catVoice").start();
+        });
+
     });
 </script>
 
