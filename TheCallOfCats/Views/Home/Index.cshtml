@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -103,3 +103,17 @@
 </script>
 
 </html>
+
+@* <button id="demo" type="button" onclick='document.getElementById("demo").innerHTML = document.getElementById("textToSpeechInput").value'>Text to speech</button>
+    <input value="fisk" id="textToSpeechInput" />
+ *@
+
+<!--
+console code to make text to speech request
+curl -X POST -u "apikey:1OKQoeidYzf4n5jaLLmhM1LsvaqXBHcrB2HKetLCviu8" ^
+--header "Content-Type: application/json" ^
+--header "Accept: audio/wav" ^
+--data "{\"text\":\"I am a cat thing. Meow.\"}" ^
+--output hello_world.wav ^
+"https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/badf5a23-db78-40ae-a451-d5734f0f0a24/v1/synthesize"
+-->
