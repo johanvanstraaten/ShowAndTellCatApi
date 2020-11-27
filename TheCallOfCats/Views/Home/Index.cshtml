@@ -1,9 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using System.Text.Json.Serialization
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using RestSharp
+@model DisplayModel
 
 <div class="text-center">
-    <h1> Yo where my cats</h1>
+    <div> @Model.Url </div>
+    <div> @Model.Response.StatusCode</div>
+    <div> @Model.Response.ContentEncoding</div>
+    <pre> @Model.Content </pre>
+
 </div>
 
 <button id="demo" type="button" onclick='document.getElementById("demo").innerHTML = document.getElementById("textToSpeechInput").value'>Text to speech</button>
